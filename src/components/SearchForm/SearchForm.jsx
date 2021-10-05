@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 
-const SearchForm = ({ onSubmit }) => {
+import { Form, Input, Button } from "./SearchForm.styled";
+
+const SearchForm = () => {
     const [query, setQuery] = useState('');
+    const history = useHistory();
+    const location = useLocation();
 
     const handleInputChange = event => {
         setQuery(event.target.value.toLowerCase());
@@ -15,23 +20,26 @@ const SearchForm = ({ onSubmit }) => {
             return;
         }
 
-        onSubmit(query);
+        history.push({
+            search: `query=${query}`,
+            state: { from: location },
+        })
         setQuery('');
     }
 
     return (
-        <form onSubmit={handleFormSubmit}>
-            <input
+        <Form onSubmit={handleFormSubmit}>
+            <Input
                 type="text"
                 autoComplete="off"
+                placeholder="Search..."
                 value={query}
-                placeholder="Search"
                 onChange={handleInputChange}
             />
-            <button type="submit">
+            <Button type="submit">
                 Search
-            </button>
-        </form>
+            </Button>
+        </Form>
     )
 }
 
