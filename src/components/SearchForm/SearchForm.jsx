@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 import { Form, Input, Button } from "./SearchForm.styled";
 
@@ -16,7 +17,7 @@ const SearchForm = () => {
         event.preventDefault();
 
         if (query.trim() === '') {
-            alert('React-toastify')
+            toast.error('Please enter the movie name.');
             return;
         }
 

@@ -1,23 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Route, useLocation, useParams, useRouteMatch, useHistory } from "react-router-dom";
 import { fetchMovieById } from "services/ApiService";
-import Cast from "components/Cast/Cast";
-import Rewiews from "components/Reviews/Reviews";
+import { LoaderSpinner } from 'components/Loader/Loader';
 import Movie from "components/Movie/Movie";
+import NotInformFound from "components/NotInformFound/NotInformFound";
 
-import { Button, LinksContainer, StyledNavLink, InformTitle } from "./MovieDetailsPage.styled";
+import { Container, Button, LinksContainer, StyledNavLink, InformTitle } from "./MovieDetailsPage.styled";
+
+const Cast = lazy(() => import("components/Cast/Cast" /* webpackChunkName: 'Cast' */));
+const Reviews = lazy(() => import("components/Reviews/Reviews" /* webpackChunkName: 'Review' */));
 
 const MovieDetailsPage = () => {
     const { movieId } = useParams();
     const { url, path } = useRouteMatch();
-    const [movie, setMovie] = useState('');
+    const [movie, setMovie] = useState(null);
+    const [isLoading, setIsloading] = useState(false)
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
+        setIsloading(true);
         fetchMovieById(movieId)
             .then(setMovie)
-            .catch(error => console.log(error.message));
+            .catch(error => console.log(error.message))
+            .finally(() => setIsloading(false));
     }, [movieId]);
 
     const handleClick = () => {
@@ -25,7 +31,8 @@ const MovieDetailsPage = () => {
     };
 
     return (
-        <div>
+        <Container>
+            {isLoading && <LoaderSpinner />}
             <Button onClick={handleClick} type="button">Go back</Button>
             {movie ? (
                 <>
@@ -51,19 +58,20 @@ const MovieDetailsPage = () => {
                             </StyledNavLink>
                         </LinksContainer>
 
-                        <Route path={path + '/cast'}>
-                            <Cast />
-                        </Route>
-                        <Route path={path + '/reviews'}>
-                            <Rewiews />
-                        </Route>
+                        <Suspense fallback={<LoaderSpinner />}>
+                            <Route path={path + '/cast'}>
+                                <Cast />
+                            </Route>
+                            <Route path={path + '/reviews'}>
+                                <Reviews />
+                            </Route>
+                        </Suspense>
                     </div>
                 </>
-
             ) : (
-                <h2>{`We can't find this film... Sorry :(`}</h2>
+                <NotInformFound />
             )}
-        </div>
+        </Container>
     )
 }
 

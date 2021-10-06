@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Image from 'images/default.png';
 
 import { Container, Description, Title, Genre, Votes } from 'components/Movie/Movie.styled';
@@ -25,6 +26,10 @@ const Movie = ({ movie }) => {
             </Description>
         </Container>
     )
+}
+
+Movie.propTypes = {
+    movie: PropTypes.object,
 }
 
 export default Movie;

@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchReview } from "services/ApiService";
-import { List, Item, Title, Content } from "./Rewiews.styled";
+import NotInformFound from "components/NotInformFound/NotInformFound";
 
-const Rewiews = () => {
+import { Container, List, Item, Title, Content } from "./Reviews.styled";
+
+const Reviews = () => {
     const [reviews, setReviews] = useState([]);
     const { movieId } = useParams();
 
     useEffect(() => {
-        fetchReview(movieId).then(data => setReviews(data.results));
+        fetchReview(movieId)
+            .then(data => setReviews(data.results))
+            .catch(console.log);
     }, [movieId])
 
     return (
-        <>
+        <Container>
             {reviews.length !== 0 ? (
                 <List>
                     {reviews.map(({ id, author, content }) => {
@@ -25,10 +29,10 @@ const Rewiews = () => {
                     })}
                 </List>
             ) : (
-                <h3>Not information found</h3>
+                <NotInformFound />
             )}
-        </>
+        </Container>
     );
 }
 
-export default Rewiews;
+export default Reviews;

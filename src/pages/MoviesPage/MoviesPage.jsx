@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { fetchMoviesByQuery } from "services/ApiService";
 import MoviesList from "components/MoviesList/MoviesList";
 import SearchForm from "components/SearchForm/SearchForm";
-import { fetchMoviesByQuery } from "services/ApiService";
-import { useLocation } from "react-router-dom";
+
+import { Container } from './MoviesPage.styled';
 
 const MoviesPage = () => {
     const [movies, setMovies] = useState([]);
@@ -10,16 +13,17 @@ const MoviesPage = () => {
 
     useEffect(() => {
         const searchQuery = new URLSearchParams(location.search).get('query');
-        if (location.search !== '') {
-            searchMovies(searchQuery);
+        if (location.search === '') {
+            return;
         }
+        searchMovies(searchQuery);
     }, [location.search]);
 
     const searchMovies = query => {
         fetchMoviesByQuery(query)
             .then(data => {
                 if (data.results.length === 0) {
-                    alert('React toastify');
+                    toast.error('Ooops, no movies found.');
                     return;
                 }
                 setMovies(data.results);
@@ -28,10 +32,10 @@ const MoviesPage = () => {
     }
 
     return (
-        <>
+        <Container>
             <SearchForm />
             {movies && <MoviesList movies={movies} />}
-        </>
+        </Container>
     )
 }
 

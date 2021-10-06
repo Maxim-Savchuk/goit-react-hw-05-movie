@@ -1,6 +1,9 @@
-import MoviesList from "components/MoviesList/MoviesList";
 import { useState, useEffect } from "react";
 import { fetchTrendingMovies } from "services/ApiService";
+import MoviesList from "components/MoviesList/MoviesList";
+
+
+import { Container } from "./HomePage.styled";
 
 const HomePage = () => {
     const [movies, setMovies] = useState([])
@@ -15,10 +18,10 @@ const HomePage = () => {
     }, [movies])
 
     return (
-        <>
+        <Container>
             <h1>Trending films</h1>
             <MoviesList movies={movies} />
-        </>
+        </Container>
     );
 };
 

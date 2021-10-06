@@ -3,6 +3,9 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
     display: flex;
     margin-top: 14px;
+    padding: 15px 0;
+    border-top: 2px solid grey;
+    border-bottom: 2px solid grey;    
 `;
 
 export const Description = styled.div`

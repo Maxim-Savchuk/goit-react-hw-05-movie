@@ -1,12 +1,16 @@
 import { NavLink } from "react-router-dom";
 import styled from "@emotion/styled";
 
+export const Container = styled.div`
+    border-bottom: 2px solid grey;
+`;
+
 export const Button = styled.button`
     font-size: 16px;
-    padding: 0 15px;
+    padding: 3px 15px;
     width: auto;
-    height: 24px;
-    color: #020202;
+    height: auto;
+    color: #645f5f;
     border: 2px solid #e02141;
     background-color: #fff;
     transition: all 0.3s ease-in;
@@ -27,11 +31,12 @@ export const LinksContainer = styled.div`
 `;
 
 export const StyledNavLink = styled(NavLink)`
-    padding: 0 8px;
+    padding: 5px 15px;
     width: auto;
     height: auto;
     text-decoration: none;
-    color: #020202;
+    font-weight: 500;
+    color: #645f5f;
     border: 2px solid #e02141;
     background-color: #fff;
     transition: all 0.3s ease-in;

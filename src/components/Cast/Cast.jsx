@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchCast } from "services/ApiService";
 import defaultImage from 'images/default.png';
+import NotInformFound from "components/NotInformFound/NotInformFound";
 
 import { Container, List, Item, Image, Name } from "./Cast.styled";
 
@@ -9,9 +10,10 @@ const Cast = () => {
     const [cast, setCast] = useState([]);
     const { movieId } = useParams();
 
-
     useEffect(() => {
-        fetchCast(movieId).then(data => setCast(data.cast));
+        fetchCast(movieId)
+            .then(data => setCast(data.cast))
+            .catch(console.log);
     }, [movieId]);
 
     const imageUrl = 'https://image.tmdb.org/t/p/w300/';
@@ -35,7 +37,7 @@ const Cast = () => {
                     })}
                 </List>
             ) : (
-                <h3>Not information found</h3>
+                <NotInformFound />
             )}
         </Container>
     );

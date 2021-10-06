@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useLocation } from "react-router-dom";
 import { List, Item, StyledLink } from "./MoviesList.styled";
 
@@ -18,6 +19,16 @@ const MoviesList = ({ movies }) => {
             )}
         </List>
     )
+}
+
+MoviesList.propTypes = {
+    movies: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number,
+            title: PropTypes.string,
+            name: PropTypes.string,
+        }),
+    ),
 }
 
 export default MoviesList;
